@@ -13,9 +13,13 @@ namespace APIMongoDB.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private readonly IWeatherForecastService _weatherForcastService;
+        private readonly Serilog.ILogger _logger;
 
-        public WeatherForecastController(IWeatherForecastService weatherForcastService) =>
+        public WeatherForecastController(IWeatherForecastService weatherForcastService, Serilog.ILogger logger)
+        {
             _weatherForcastService = weatherForcastService;
+            _logger = logger;
+        }
 
         [HttpGet]
         public async Task<List<WeatherForecast>> Get() =>

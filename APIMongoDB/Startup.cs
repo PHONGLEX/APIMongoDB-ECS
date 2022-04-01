@@ -13,6 +13,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Amazon.Runtime;
 using APIMongoDB.Services;
+using AWS.Logger;
+using Serilog;
+using AWS.Logger.SeriLog;
 
 namespace APIMongoDB
 {
@@ -40,6 +43,16 @@ namespace APIMongoDB
             });
 
             services.AddHealthChecks();
+
+
+            AWSLoggerConfig configuration = new AWSLoggerConfig("Serilog.DemoLogGroup");
+            configuration.Region = "us-east-1";
+
+            var logger = new LoggerConfiguration()
+            .WriteTo.AWSSeriLog(configuration)
+            .CreateLogger();
+
+            services.AddSingleton<Serilog.ILogger>(logger);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

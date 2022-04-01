@@ -9,21 +9,37 @@ namespace APIMongoDB.Services
     public class WeatherForecastService : IWeatherForecastService
     {
         private readonly IMongoCollection<WeatherForecast> _booksCollection;
+        private readonly Serilog.ILogger _logger;
 
         public WeatherForecastService(
-            IOptions<WeatherForecastDatabaseConnectionSettings> bookStoreDatabaseSettings)
+            IOptions<WeatherForecastDatabaseConnectionSettings> weatherForecastDatabaseSettings, Serilog.ILogger logger)
         {
-            var mongoClient = new MongoClient(bookStoreDatabaseSettings.Value.ConnectionString);
+            _logger = logger;
+
+            _logger.Information(weatherForecastDatabaseSettings.Value.ConnectionString);
+            _logger.Information(weatherForecastDatabaseSettings.Value.DatabaseName);
+            _logger.Information(weatherForecastDatabaseSettings.Value.WeatherCollectionName);
+            var mongoClient = new MongoClient(weatherForecastDatabaseSettings.Value.ConnectionString);
 
             var mongoDatabase = mongoClient.GetDatabase(
-                bookStoreDatabaseSettings.Value.DatabaseName);
+                weatherForecastDatabaseSettings.Value.DatabaseName);
 
             _booksCollection = mongoDatabase.GetCollection<WeatherForecast>(
-                bookStoreDatabaseSettings.Value.WeatherCollectionName);
+                weatherForecastDatabaseSettings.Value.WeatherCollectionName);
         }
 
-        public async Task<List<WeatherForecast>> GetAsync() =>
-            await _booksCollection.Find(_ => true).ToListAsync();
+        public async Task<List<WeatherForecast>> GetAsync()
+        {
+            try
+            {
+                return await _booksCollection.Find(_ => true).ToListAsync();
+            }
+            catch (System.Exception e)
+            {
+                _logger.Information(e.Message);
+                throw;
+            }
+        }
 
         public async Task<WeatherForecast> GetAsync(string id) =>
             await _booksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
