@@ -34,7 +34,7 @@ namespace APIMongoDB
             services.Configure<WeatherForecastDatabaseConnectionSettings>(
                 Configuration.GetSection("weather-forecast"));
 
-            services.AddSingleton<IWeatherForecastService, WeatherForecastService>();
+            services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
