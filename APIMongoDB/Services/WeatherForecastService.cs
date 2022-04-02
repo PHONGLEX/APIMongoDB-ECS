@@ -8,49 +8,101 @@ namespace APIMongoDB.Services
 {
     public class WeatherForecastService : IWeatherForecastService
     {
-        private readonly IMongoCollection<WeatherForecast> _booksCollection;
+        private readonly IMongoCollection<WeatherForecast> _weatherCollection;
         private readonly Serilog.ILogger _logger;
 
         public WeatherForecastService(
             IOptions<WeatherForecastDatabaseConnectionSettings> weatherForecastDatabaseSettings, Serilog.ILogger logger)
         {
+
             _logger = logger;
+            try
+            {
+                _logger.Information("Constructor");
+                var mongoClient = new MongoClient(weatherForecastDatabaseSettings.Value.ConnectionString);
 
-            _logger.Information(weatherForecastDatabaseSettings.Value.ConnectionString);
-            _logger.Information(weatherForecastDatabaseSettings.Value.DatabaseName);
-            _logger.Information(weatherForecastDatabaseSettings.Value.WeatherCollectionName);
-            var mongoClient = new MongoClient(weatherForecastDatabaseSettings.Value.ConnectionString);
+                var mongoDatabase = mongoClient.GetDatabase(
+                    weatherForecastDatabaseSettings.Value.DatabaseName);
 
-            var mongoDatabase = mongoClient.GetDatabase(
-                weatherForecastDatabaseSettings.Value.DatabaseName);
-
-            _booksCollection = mongoDatabase.GetCollection<WeatherForecast>(
-                weatherForecastDatabaseSettings.Value.WeatherCollectionName);
+                _weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(
+                    weatherForecastDatabaseSettings.Value.WeatherCollectionName);
+            }
+            catch (System.Exception e)
+            {
+                _logger.Error(e.Message);
+                throw e;
+            }
+            
         }
 
         public async Task<List<WeatherForecast>> GetAsync()
         {
             try
             {
-                return await _booksCollection.Find(_ => true).ToListAsync();
+                _logger.Information("Get all");
+                return await _weatherCollection.Find(_ => true).ToListAsync();
+            }
+            catch (System.Exception e)
+            {
+                _logger.Error(e.Message);
+                throw e;
+            }
+        }
+
+        public async Task<WeatherForecast> GetAsync(string id)
+        {
+            try
+            {
+                _logger.Information("Get by id");
+                return await _weatherCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
             }
             catch (System.Exception e)
             {
                 _logger.Information(e.Message);
-                throw;
+                throw e;
             }
         }
 
-        public async Task<WeatherForecast> GetAsync(string id) =>
-            await _booksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        public async Task CreateAsync(WeatherForecast newWeatherForecast)
+        {
+            try
+            {
+                _logger.Information("Create");
+                await _weatherCollection.InsertOneAsync(newWeatherForecast);
+            }
+            catch (System.Exception e)
+            {
+                _logger.Information(e.Message);
+                throw e;
+            }
 
-        public async Task CreateAsync(WeatherForecast newWeatherForecast) =>
-            await _booksCollection.InsertOneAsync(newWeatherForecast);
+        }
 
-        public async Task UpdateAsync(string id, WeatherForecast updatedWeatherForecast) =>
-            await _booksCollection.ReplaceOneAsync(x => x.Id == id, updatedWeatherForecast);
+        public async Task UpdateAsync(string id, WeatherForecast updatedWeatherForecast)
+        {
+            try
+            {
+                await _weatherCollection.ReplaceOneAsync(x => x.Id == id, updatedWeatherForecast);
+            }
+            catch (System.Exception e)
+            {
+                _logger.Information(e.Message);
+                throw e;
+            }        
+        }
 
-        public async Task RemoveAsync(string id) =>
-            await _booksCollection.DeleteOneAsync(x => x.Id == id);
+        public async Task RemoveAsync(string id) 
+        {
+            try
+            {
+                await _weatherCollection.DeleteOneAsync(x => x.Id == id);
+
+            }
+            catch (System.Exception e)
+            {
+                _logger.Information(e.Message);
+                throw e;
+            }        
+        }
     }
 }
