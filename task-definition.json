@@ -14,7 +14,15 @@
           "containerPort": "80",
           "protocol": "tcp"
         }
-      ]
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "awslogs-dotnet",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "awslogs-example"
+        }
+      }
     }
   ],
   "volumes": [],

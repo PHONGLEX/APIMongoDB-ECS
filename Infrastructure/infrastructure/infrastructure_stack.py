@@ -57,9 +57,22 @@ class InfrastructureStack(Stack):
             effect=iam.Effect.ALLOW,
             resources=["*"],
             actions=[
-                "cloudwatch:CloudWatchAgentServerPolicy",
-                "xray:AWSXRayDaemonWriteAccess",
-                "ssm:DescribeParameters",             
+                "ssm:DescribeParameters",
+                "ec2:DescribeTags",
+                "ecs:CreateCluster",
+                "ecs:DeregisterContainerInstance",
+                "ecs:DiscoverPollEndpoint",
+                "ecs:Poll",
+                "ecs:RegisterContainerInstance",
+                "ecs:StartTelemetrySession",
+                "ecs:UpdateContainerInstancesState",
+                "ecs:Submit*",
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"            
                 ]
         ))
         

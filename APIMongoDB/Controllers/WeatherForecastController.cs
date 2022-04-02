@@ -22,8 +22,19 @@ namespace APIMongoDB.Controllers
         }
 
         [HttpGet]
-        public async Task<List<WeatherForecast>> Get() =>
-            await _weatherForcastService.GetAsync();
+        public async Task<List<WeatherForecast>> Get()
+        {
+            try
+            {
+                _logger.Information("Get All");
+                return await _weatherForcastService.GetAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e.Message);
+                throw e;
+            }
+        }
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<WeatherForecast>> Get(string id)
