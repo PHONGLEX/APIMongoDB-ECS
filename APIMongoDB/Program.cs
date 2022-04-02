@@ -25,7 +25,7 @@ namespace APIMongoDB
                     {
                         source.AwsOptions = new Amazon.Extensions.NETCore.Setup.AWSOptions()
                         {
-                            Credentials = new BasicAWSCredentials(Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID"), Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY")),
+                            //Credentials = new BasicAWSCredentials(Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID"), Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY")),
                             Region = Amazon.RegionEndpoint.USEast1
                         };
                         source.Optional = true;
