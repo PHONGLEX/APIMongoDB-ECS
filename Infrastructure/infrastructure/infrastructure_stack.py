@@ -42,11 +42,8 @@ class InfrastructureStack(Stack):
                 "ecr:GetDownloadUrlForLayer",
                 "ecr:BatchGetImage",
                 "logs:CreateLogStream",
-                "logs:PutLogEvents",
-                "ssm:AmazonSSMReadOnlyAccess",
-                "ecs:AmazonECSTaskExecutionRolePolicy",
-                "cloudwatch:CloudWatchAgentServerPolicy"                
-                ]
+                "logs:PutLogEvents"              
+            ]
         ))
         
         task_role = iam.Role(self, "ecs-devops-sandbox-task-role",
@@ -76,26 +73,6 @@ class InfrastructureStack(Stack):
         #         ]
         # ))
         
-        policy_document = {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Action": [
-                        "logs:CreateLogGroup",
-                        "logs:CreateLogStream",
-                        "logs:PutLogEvents",
-                        "logs:DescribeLogStreams"
-                    ],
-                    "Resource": [
-                        "arn:aws:logs:*:*:*"
-                    ]
-                }
-            ]
-        }
-        
-        cloudWatch_policy = iam.PolicyDocument.from_json(policy_document)
-        
         task_role.add_to_policy(iam.PolicyStatement(
             effect=iam.Effect.ALLOW,
             resources=["arn:aws:ssm:us-east-1:134477770615:parameter/test/weather-forecast/*"],
@@ -110,8 +87,15 @@ class InfrastructureStack(Stack):
                 ]
         ))
         
-        task_role.add_to_policy(iam.Policy(self, "CloudwatchPolicy",
-            document=cloudWatch_policy
+        task_role.add_to_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            resources=["arn:aws:logs:*:*:*"],
+            actions=[
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:DescribeLogStreams"         
+            ]
         ))
 
         task_definition = ecs.FargateTaskDefinition(self,
