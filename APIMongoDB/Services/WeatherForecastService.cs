@@ -19,6 +19,7 @@ namespace APIMongoDB.Services
             try
             {
                 _logger.Information("Constructor");
+                _logger.Information(weatherForecastDatabaseSettings.Value.ConnectionString);
                 var mongoClient = new MongoClient(weatherForecastDatabaseSettings.Value.ConnectionString);
 
                 var mongoDatabase = mongoClient.GetDatabase(

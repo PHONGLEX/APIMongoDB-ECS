@@ -32,9 +32,6 @@
   "executionRoleArn": "arn:aws:iam::134477770615:role/ecs-devops-sandbox-execution-role",
   "family": "ecs-devops-sandbox-task-definition",
   "taskRoleArn": "arn:aws:iam::134477770615:role/ecs-devops-sandbox-task-role",
-  "placementConstraints": [],
-  "awsvpcConfiguration": {
-    "assignPublicIp": "ENABLED"
-  }
+  "placementConstraints": []
 }
 
