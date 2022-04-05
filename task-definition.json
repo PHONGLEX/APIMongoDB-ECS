@@ -22,7 +22,21 @@
             "awslogs-region": "us-east-1",
             "awslogs-stream-prefix": "awslogs-example"
         }
-      }
+      },
+      "secrets": [
+        {
+          "name": "CONNECTION_STRING",
+          "valueFrom": "arn:aws:ssm:us-east-1:134477770615:parameter/test/weather-forecast/connectionString"
+        },
+        {
+          "name": "DATABASE_NAME",
+          "valueFrom": "arn:aws:ssm:us-east-1:134477770615:parameter/test/weather-forecast/databaseName"
+        },
+        {
+          "name": "COLLECTION_NAME",
+          "valueFrom": "arn:aws:ssm:us-east-1:134477770615:parameter/test/weather-forecast/weatherCollectionName"
+        }
+      ]
     }
   ],
   "volumes": [],
