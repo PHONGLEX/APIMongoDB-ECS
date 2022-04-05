@@ -32,7 +32,7 @@ namespace APIMongoDB.Controllers
             catch (Exception e)
             {
                 _logger.Error(e.Message);
-                throw e;
+                throw;
             }
         }
 

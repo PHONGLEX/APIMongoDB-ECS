@@ -15,30 +15,19 @@ namespace APIMongoDB.Services
         public WeatherForecastService(
             IOptions<WeatherForecastDatabaseConnectionSettings> weatherForecastDatabaseSettings, Serilog.ILogger logger)
         {
-
             _logger = logger;
-            try
-            {
-                _logger.Information("Constructor");
-                //var mongoClient = new MongoClient(weatherForecastDatabaseSettings.Value.ConnectionString);
+            //var mongoClient = new MongoClient(weatherForecastDatabaseSettings.Value.ConnectionString);
 
-                //var mongoDatabase = mongoClient.GetDatabase(
-                //    weatherForecastDatabaseSettings.Value.DatabaseName);
+            //var mongoDatabase = mongoClient.GetDatabase(
+            //    weatherForecastDatabaseSettings.Value.DatabaseName);
 
-                //_weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(
-                //    weatherForecastDatabaseSettings.Value.WeatherCollectionName);
-                var mongoClient = new MongoClient(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
+            //_weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(
+            //    weatherForecastDatabaseSettings.Value.WeatherCollectionName);
+            var mongoClient = new MongoClient(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
 
-                var mongoDatabase = mongoClient.GetDatabase(Environment.GetEnvironmentVariable("DATABASE_NAME"));
+            var mongoDatabase = mongoClient.GetDatabase(Environment.GetEnvironmentVariable("DATABASE_NAME"));
 
-                _weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(Environment.GetEnvironmentVariable("COLLECTION_NAME"));
-            }
-            catch (System.Exception e)
-            {
-                _logger.Error(e.Message);
-                throw e;
-            }
-            
+            _weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(Environment.GetEnvironmentVariable("COLLECTION_NAME"));
         }
 
         public async Task<List<WeatherForecast>> GetAsync()
@@ -51,7 +40,7 @@ namespace APIMongoDB.Services
             catch (System.Exception e)
             {
                 _logger.Error(e.Message);
-                throw e;
+                throw;
             }
         }
 
@@ -65,7 +54,7 @@ namespace APIMongoDB.Services
             catch (System.Exception e)
             {
                 _logger.Information(e.Message);
-                throw e;
+                throw;
             }
         }
 
@@ -79,7 +68,7 @@ namespace APIMongoDB.Services
             catch (System.Exception e)
             {
                 _logger.Information(e.Message);
-                throw e;
+                throw;
             }
 
         }
@@ -93,7 +82,7 @@ namespace APIMongoDB.Services
             catch (System.Exception e)
             {
                 _logger.Information(e.Message);
-                throw e;
+                throw;
             }        
         }
 
@@ -107,7 +96,7 @@ namespace APIMongoDB.Services
             catch (System.Exception e)
             {
                 _logger.Information(e.Message);
-                throw e;
+                throw;
             }        
         }
     }
