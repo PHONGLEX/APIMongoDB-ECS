@@ -30,7 +30,7 @@
   "networkMode": "bridge",
   "memory": "512",
   "cpu": "256",
-  "executionRoleArn": "arn:aws:iam::134477770615:role/ecs-devops-sandbox-execution-role",
+  "executionRoleArn": "arn:aws:iam::134477770615:role/ecsTaskExecutionRole",
   "family": "ecs-devops-sandbox-task-definition",
   "taskRoleArn": "arn:aws:iam::134477770615:role/ecs-devops-sandbox-task-role",
   "placementConstraints": []
