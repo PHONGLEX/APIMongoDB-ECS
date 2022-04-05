@@ -1,6 +1,7 @@
 ﻿using APIMongoDB.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,14 +20,18 @@ namespace APIMongoDB.Services
             try
             {
                 _logger.Information("Constructor");
-                _logger.Information(weatherForecastDatabaseSettings.Value.ConnectionString);
-                var mongoClient = new MongoClient(weatherForecastDatabaseSettings.Value.ConnectionString);
+                //var mongoClient = new MongoClient(weatherForecastDatabaseSettings.Value.ConnectionString);
 
-                var mongoDatabase = mongoClient.GetDatabase(
-                    weatherForecastDatabaseSettings.Value.DatabaseName);
+                //var mongoDatabase = mongoClient.GetDatabase(
+                //    weatherForecastDatabaseSettings.Value.DatabaseName);
 
-                _weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(
-                    weatherForecastDatabaseSettings.Value.WeatherCollectionName);
+                //_weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(
+                //    weatherForecastDatabaseSettings.Value.WeatherCollectionName);
+                var mongoClient = new MongoClient(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
+
+                var mongoDatabase = mongoClient.GetDatabase(Environment.GetEnvironmentVariable("DATABASE_NAME"));
+
+                _weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(Environment.GetEnvironmentVariable("COLLECTION_NAME"));
             }
             catch (System.Exception e)
             {
