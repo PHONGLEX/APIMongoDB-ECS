@@ -46,19 +46,19 @@ class InfrastructureStack(Stack):
             ]
         ))
         
-        execution_role.add_to_policy(iam.PolicyStatement(
-            effect=iam.Effect.ALLOW,
-            resources=["arn:aws:ssm:us-east-1:134477770615:parameter/test/weather-forecast/*"],
-            actions=[
-                "ssm:PutParameter",
-                "ssm:DeleteParameter",
-                "ssm:GetParameterHistory",
-                "ssm:GetParametersByPath",
-                "ssm:GetParameters",
-                "ssm:GetParameter",
-                "ssm:DeleteParameters"          
-                ]
-        ))
+        # execution_role.add_to_policy(iam.PolicyStatement(
+        #     effect=iam.Effect.ALLOW,
+        #     resources=["arn:aws:ssm:us-east-1:134477770615:parameter/test/weather-forecast/*"],
+        #     actions=[
+        #         "ssm:PutParameter",
+        #         "ssm:DeleteParameter",
+        #         "ssm:GetParameterHistory",
+        #         "ssm:GetParametersByPath",
+        #         "ssm:GetParameters",
+        #         "ssm:GetParameter",
+        #         "ssm:DeleteParameters"          
+        #         ]
+        # ))
         
         task_role = iam.Role(self, "ecs-devops-sandbox-task-role",
                                   assumed_by=iam.ServicePrincipal("ecs-tasks.amazonaws.com"),
@@ -74,7 +74,8 @@ class InfrastructureStack(Stack):
                 "ssm:GetParametersByPath",
                 "ssm:GetParameters",
                 "ssm:GetParameter",
-                "ssm:DeleteParameters"          
+                "ssm:DeleteParameters",
+                "kms:Decrypt"         
                 ]
         ))
         

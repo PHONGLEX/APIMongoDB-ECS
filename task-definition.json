@@ -22,21 +22,26 @@
             "awslogs-region": "us-east-1",
             "awslogs-stream-prefix": "awslogs-example"
         }
-      },
+      }
+    },
+    {
+      "name": "cloudwatch-agent",
+      "image": "public.ecr.aws/cloudwatch-agent/cloudwatch-agent:latest",
       "secrets": [
-        {
-          "name": "CONNECTION_STRING",
-          "valueFrom": "arn:aws:ssm:us-east-1:134477770615:parameter/test/weather-forecast/connectionString"
-        },
-        {
-          "name": "DATABASE_NAME",
-          "valueFrom": "arn:aws:ssm:us-east-1:134477770615:parameter/test/weather-forecast/databaseName"
-        },
-        {
-          "name": "COLLECTION_NAME",
-          "valueFrom": "arn:aws:ssm:us-east-1:134477770615:parameter/test/weather-forecast/weatherCollectionName"
-        }
-      ]
+          {
+              "name": "CW_CONFIG_CONTENT",
+              "valueFrom": "ecs-cwagent"
+          }
+      ],
+      "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-create-group": "True",
+            "awslogs-group": "Serilog.DemoLogGroup",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "ecs"
+          }
+      }
     }
   ],
   "volumes": [],

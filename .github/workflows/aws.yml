@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - dev
   # run manually
   workflow_dispatch:
 
