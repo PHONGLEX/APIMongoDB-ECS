@@ -48,7 +48,7 @@ class InfrastructureStack(Stack):
         
         execution_role.add_to_policy(iam.PolicyStatement(
             effect=iam.Effect.ALLOW,
-            resources=["arn:aws:ssm:us-east-1:134477770615:parameter/test/weather-forecast/*"],
+            resources=["arn:aws:ssm:us-east-1:134477770615:parameter/*"],
             actions=[
                 "ssm:PutParameter",
                 "ssm:DeleteParameter",
@@ -67,7 +67,7 @@ class InfrastructureStack(Stack):
         
         task_role.add_to_policy(iam.PolicyStatement(
             effect=iam.Effect.ALLOW,
-            resources=["arn:aws:ssm:us-east-1:134477770615:parameter/test/weather-forecast/*"],
+            resources=["arn:aws:ssm:us-east-1:134477770615:parameter/*"],
             actions=[
                 "ssm:PutParameter",
                 "ssm:DeleteParameter",
