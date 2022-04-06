@@ -16,18 +16,18 @@ namespace APIMongoDB.Services
             IOptions<WeatherForecastDatabaseConnectionSettings> weatherForecastDatabaseSettings, Serilog.ILogger logger)
         {
             _logger = logger;
-            //var mongoClient = new MongoClient(weatherForecastDatabaseSettings.Value.ConnectionString);
+            var mongoClient = new MongoClient(weatherForecastDatabaseSettings.Value.ConnectionString);
 
-            //var mongoDatabase = mongoClient.GetDatabase(
-            //    weatherForecastDatabaseSettings.Value.DatabaseName);
+            var mongoDatabase = mongoClient.GetDatabase(
+                weatherForecastDatabaseSettings.Value.DatabaseName);
 
-            //_weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(
-            //    weatherForecastDatabaseSettings.Value.WeatherCollectionName);
-            var mongoClient = new MongoClient(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
+            _weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(
+                weatherForecastDatabaseSettings.Value.WeatherCollectionName);
+            //var mongoClient = new MongoClient(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
 
-            var mongoDatabase = mongoClient.GetDatabase(Environment.GetEnvironmentVariable("DATABASE_NAME"));
+            //var mongoDatabase = mongoClient.GetDatabase(Environment.GetEnvironmentVariable("DATABASE_NAME"));
 
-            _weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(Environment.GetEnvironmentVariable("COLLECTION_NAME"));
+            //_weatherCollection = mongoDatabase.GetCollection<WeatherForecast>(Environment.GetEnvironmentVariable("COLLECTION_NAME"));
         }
 
         public async Task<List<WeatherForecast>> GetAsync()
