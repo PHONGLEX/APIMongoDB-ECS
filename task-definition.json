@@ -23,19 +23,6 @@
             "awslogs-stream-prefix": "awslogs-example"
         }
       }
-    },
-    {
-      "name": "cloudwatch-agent",
-      "image": "public.ecr.aws/cloudwatch-agent/cloudwatch-agent:latest",
-      "logConfiguration": {
-          "logDriver": "awslogs",
-          "options": {
-            "awslogs-create-group": "True",
-            "awslogs-group": "Serilog.DemoLogGroup",
-            "awslogs-region": "us-east-1",
-            "awslogs-stream-prefix": "ecs"
-          }
-      }
     }
   ],
   "volumes": [],
